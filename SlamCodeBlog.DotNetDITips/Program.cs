@@ -1,3 +1,4 @@
+using SlamCodeBlog.DotNetDITips;
 using SlamCodeBlog.DotNetDITips.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,9 +17,19 @@ builder.Services.AddSingleton<ISubService, FirstSubService>();
 //builder.Services.AddScoped<ITestService, TestServiceWithNoDefaultCstr>();
 builder.Services.AddSingleton<ITestService, TestServiceWithNoCstr>();
 builder.Services.AddScoped<ITestService, TestServiceWithDiffNoOfParamsInCstr>();
+//builder.Services.AddScoped<ITestService, TestServiceWithNoResolvableCstr>();
 
 builder.Services.AddSingleton<GetDateTime>(DateTimeHelper.Utc);
 builder.Services.AddSingleton<Func<DateTime>>(() => DateTime.UtcNow);
+
+builder.Services.AddSingleton<string>($"{DateTime.UtcNow.ToShortTimeString()}");
+// builder.Services.AddSingleton<DateTime>(DateTime.UtcNow);
+// builder.Services.AddSingleton(new SomeStruct());
+// builder.Services.AddSingleton<Double>(DateTime.UtcNow.Month * 1.0 / DateTime.UtcNow.Day);
+// builder.Services.AddSingleton<Double>((sp) => DateTime.UtcNow.Month * 1.0 / DateTime.UtcNow.Day);    
+//dynamic myDynamicSomething = new { BlahBlah = "Some string" };
+//builder.Services.AddSingleton(typeof(myDynamicSomething), myDynamicSomething);
+//builder.Services.Add(new ServiceDescriptor(typeof(myDynamicSomething), myDynamicSomething));
 
 builder.Services.AddScoped<TimeConsumingService>();
 builder.Services.AddScoped<ServiceUsingListOfServices>();

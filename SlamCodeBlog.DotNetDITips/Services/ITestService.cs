@@ -61,6 +61,21 @@
         // Implicit default cstr is used only if there is no other public one defined
     }
 
+    internal class TestServiceWithNoResolvableCstr : ITestService
+    {
+        // Any cstr declared here makes implicit one obsolete, even if it can note be resolved
+        public TestServiceWithNoResolvableCstr(Func<string> someStringFunc)
+        {
+            Console.WriteLine($"{nameof(TestServiceWithNoResolvableCstr)} Constructor:(someStringFunc)");
+        }
+
+        // Explicit declaration of defualt cstr will make container using it
+        //public TestServiceWithNoResolvableCstr()
+        //{
+        //    Console.WriteLine($"{nameof(TestServiceWithNoResolvableCstr)} Constructor:()");
+        //}
+    }
+
     public class TestServiceWithDiffNoOfParamsInCstr : ITestService
     {
         public TestServiceWithDiffNoOfParamsInCstr()
@@ -83,7 +98,7 @@
             Console.WriteLine($"{nameof(TestServiceWithDiffNoOfParamsInCstr)} Constructor:(getDateTime, subService, timeConsumingService)");
         }
 
-        // This cnstructor will be sued as it has most resolvable parameters
+        // This constructor will be used as it has most resolvable parameters
         public TestServiceWithDiffNoOfParamsInCstr(GetDateTime getDateTime, ISubService subService, TimeConsumingService timeConsumingService, Func<DateTime> getDataTimeFunc)
         {
             Console.WriteLine($"{nameof(TestServiceWithDiffNoOfParamsInCstr)} Constructor:(getDateTime, subService, timeConsumingService, getDataTimeFunc)");
