@@ -3,6 +3,12 @@ using SlamCodeBlog.DotNetDITips.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseDefaultServiceProvider(opt =>
+{
+    opt.ValidateScopes = true;
+    opt.ValidateOnBuild = true;
+});
+
 // Add services to the container.
 builder.Services.AddTransient<ITestService, FirstTestService>();
 //builder.Services.AddScoped<ITestService, FirstTestService>();
